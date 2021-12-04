@@ -22,7 +22,8 @@ touch smart-contract.sol
 ```  
 Copy and paste the code below into the newly created file  
 ```c++
-pragma solidity ^0.5.10;
+// SPDX-License-Identifier: UNLICENSED
+pragma solidity ^0.8.10;
 
 contract HelloWorld {
   string message = "Hello World";
@@ -46,7 +47,7 @@ npm i solc --save
 ```  
 Once it's done installing, you can start coding your ```binder.js``` file<br>  
 ```bash
-touch index.js  
+touch binder.js  
 ```  
 Copy and paste the following code into ```binder.js``` 
 ```js

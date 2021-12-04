@@ -1,0 +1,22 @@
+{
+  "name": "local-ethereum-dapp",
+  "version": "1.0.0",
+  "description": "Create a full ethereum blockchain locally and run dapps and smart contracts on it",
+  "main": "binder.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BullishVince/local-ethereum-dapp.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BullishVince/local-ethereum-dapp/issues"
+  },
+  "homepage": "https://github.com/BullishVince/local-ethereum-dapp#readme",
+  "dependencies": {
+    "solc": "^0.8.10"
+  }
+}
