@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.10;
 
-contract HelloWorld {
+contract SmartContract {
   string message = "Hello World";
   
   // Add this function:

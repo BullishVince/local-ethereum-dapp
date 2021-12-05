@@ -1,7 +1,7 @@
 # local-ethereum-dapp  
 Create a full ethereum blockchain locally and run dapps and smart contracts on it  
 
-## Setup  
+## Setup 🧰 
 First we'll need to make sure that we have ganache-cli in place.  
 Ganache is an Ethereum simulator that makes developing Ethereum applications faster, easier, and safer. It includes all popular RPC functions and features (like events) and can be run deterministically to make development a breeze.  
 
@@ -15,7 +15,8 @@ Create a new project which will be used to run your smart contract against your 
 ```bash
 mkdir local-ethereum-dapp && cd local-ethereum-dapp && npm init --yes; git init;  
 ```  
-  
+<br>  
+
 ## Creating your smart contract 📑  
 ```bash
 touch smart-contract.sol
@@ -39,6 +40,7 @@ contract HelloWorld {
 }
 ```  
 That's it! Now we have our smart contract in place. The next step is to build the binding module which will read our program, format it, compile it using the solidity compiler and then log the output from the compiler 😄  
+<br>
 
 ## Add binding module and compile our smart contract  
 To compile our smart contract we need to make sure that our project can utilize the solidity compiler. You can install it with the following command  
@@ -82,3 +84,53 @@ To compile our smart contract just run the following command
 node binder.js
 ```  
 Easy, right? 😄  
+<br>  
+
+## Implement the web3 API  
+In this step we're going to implement an API-library called web3.js in order to handle requests to and from our blockchain in a seamless way  
+![Blockchain API Flow!](./assets/images/blockchain-api-flow.png)  
+Install web3 for your project using the following command  
+```bash
+npm i web3 --save
+```  
+We can now extend our already existing ```binder.js```with the following code  
+```js
+const Web3 = require('web3');  
+
+//Rest of your code...
+
+//Set up a http provider which communicates on the port you started the ganache-cli on, in my case it is 8545
+const provider = new Web3.providers.HttpProvider("http://localhost:8545");  
+
+//Connect to your blockchain and save the connection object as web3
+const web3 = new Web3(provider);
+```  
+So, now we have implemented the web3 API to our program. The next step is to deploy the smart contract to an address on the blockchain 👍  
+<br>  
+
+## Deploy your smart contract  
+Now that our file can connect to the local blockchain via web3, we want to upload our newly-created contract to an address on the network.  
+<br>
+In order to do that, we first need to use web3 to create a Contract object out of our compiled code. This will make it much easier to interact with our contract.  
+Extend ```binder.js``` with the following code  
+```js
+//Rest of the code 
+
+// Get the compiled contract's abi (interface)
+//ABI = Application Binary Interface
+const { HelloWorld } = output.contracts["HelloWorld.sol"]
+const { abi, evm } = HelloWorld // We'll use the "evm" variable later
+ 
+// Initialize a new contract object:
+const contract = new web3.eth.Contract(abi);
+
+console.log(contract);
+```
+  
+Now, in order to deploy this contract to an address, we need to use gas and spend some ether by following these three steps:  
++ Get an address from our test wallet
++ Get the current gas price
++ Spend some (fake) ether from our address to deploy our HelloWorld contract to a new random address.
++ Get the deployed contract instance and call its <b>getMessage</b> function.  
+
+TO BE CONTINUED...  
