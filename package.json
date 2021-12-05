@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/BullishVince/local-ethereum-dapp#readme",
   "dependencies": {
-    "solc": "^0.8.10"
+    "solc": "^0.8.10",
+    "web3": "^1.6.1"
   }
 }

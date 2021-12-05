@@ -118,7 +118,7 @@ Extend ```binder.js``` with the following code
 
 // Get the compiled contract's abi (interface)
 //ABI = Application Binary Interface
-const { HelloWorld } = output.contracts["HelloWorld.sol"]
+const { SmartContract } = output.contracts["smart-contract.sol"]
 const { abi, evm } = HelloWorld // We'll use the "evm" variable later
  
 // Initialize a new contract object:
@@ -132,5 +132,45 @@ Now, in order to deploy this contract to an address, we need to use gas and spen
 + Get the current gas price
 + Spend some (fake) ether from our address to deploy our HelloWorld contract to a new random address.
 + Get the deployed contract instance and call its <b>getMessage</b> function.  
+  
+Since a lot of web3's API is promise-based, we're going to use Node's async/await functionality to make the code more readable. We'll make sure to set the gas fee high in order to deploy it directly and since we're running a local blockchain we can just choose a high arbitrary number  
+```js
+//Rest of the code  
 
-TO BE CONTINUED...  
+const deployAndRunContract = async () => {
+  // Get the addresses of Ganache's fake wallet:
+  const addresses = await web3.eth.getAccounts();
+  
+  // Get the current price of gas
+  const gasPrice = await web3.eth.getGasPrice();
+
+  // Deploy the HelloWorld contract (its bytecode) 
+  // by spending some gas from our first address
+  contract.deploy({
+    data: evm.bytecode.object,
+  })
+  .send({
+    from: addresses[0],
+    gas: 1000000,
+    gasPrice,
+  })
+  .on('confirmation', async (confNumber, receipt) => {
+    const { contractAddress } = receipt
+    console.log("Deployed at", contractAddress);
+
+    // Get the deployed contract instance:
+    const contractInstance = new web3.eth.Contract(abi, contractAddress)
+
+    // Call the "getMessage" function and log the result:
+    const message = await contractInstance.methods.getMessage().call();
+    console.log("Result from blockchain:", message);
+  })
+  .on('error', (err) => {
+    console.log("Failed to deploy:", error) 
+  })
+}
+
+deployAndRunContract(); // Call the function
+```  
+Let's run our program using ```node binder.js``` and see if it works  
+
