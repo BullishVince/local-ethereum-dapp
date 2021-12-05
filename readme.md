@@ -88,7 +88,7 @@ Easy, right? 😄
 
 ## Implement the web3 API  
 In this step we're going to implement an API-library called web3.js in order to handle requests to and from our blockchain in a seamless way  
-![Blockchain API Flow!](./assets/images/blockchain-api-flow.png)  
+![Blockchain API Flow!](assets/images/blockchain-api-flow.png)  
 Install web3 for your project using the following command  
 ```bash
 npm i web3 --save
